@@ -15,8 +15,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Manually set the API keys
-google_api_key = "AIzaSyCxhOGBxS0NuhwIV94wYZ2aqL5nCOPVEkY"
-groq_api_key = "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"
+google_api_key = os.getenv("GOOGLE_API_KEY")
+groq_api_key = os.getenv("GROQ_API_KEY")
 
 # Set the environment variable for Google API key
 os.environ["GOOGLE_API_KEY"] = google_api_key
