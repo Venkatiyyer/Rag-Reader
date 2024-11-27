@@ -18,6 +18,8 @@ git clone https://github.com/Venkatiyyer/Rag-Reader.git
 
 cd rag-reader
 
+
+
 \## 2. Install Required Dependencies
 
 Make sure you have Python 3.7+ installed. Create and activate a virtual environment, then install the required packages:
