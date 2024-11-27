@@ -121,8 +121,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contributors
 
-- **Venkat Iyer** - Project Lead
-- 
+**Venkat Iyer** - Project Lead
+  
   - Led the overall project development and architecture.
   - Coordinated feature design and implementation.
   - Managed deployment and maintenance.
