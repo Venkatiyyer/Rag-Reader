@@ -19,7 +19,7 @@ cd rag-reader
 
 ### 2. Install Required Dependencies
 
-Make sure you have Python 3.7+ installed. Create and activate a virtual environment, then install the required packages:
+Make sure you have Python 3.10+ installed. Create and activate a virtual environment, then install the required packages:
 
 ```bash
 python3 -m venv venv
