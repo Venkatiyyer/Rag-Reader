@@ -188,10 +188,12 @@ def main():
         response = query_documents(user_question, st.session_state.vectors)
         
         # Add bot response to the chat history
-        if response and 'answer' in response:  # Check if the 'answer' key is in the response
-            st.session_state.chat_history.append(f"{'    '} {response['answer']}")
+        if "error" in response:
+            st.error(f"⚠️ Retrieval error: {response['error']}")
+        elif "no_result" in response:
+            st.warning("I ran, but didn’t find anything relevant in those documents.")
         else:
-            st.session_state.chat_history.append(f"{'    '} Sorry, I couldn't find an answer to your question.")
+            st.session_state.chat_history.append(response["answer"])
     # Display the conversation history using templates
     if st.session_state.chat_history:
         st.subheader("Chat Logs")
