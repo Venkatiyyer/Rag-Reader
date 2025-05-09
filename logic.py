@@ -27,7 +27,7 @@ os.environ["GOOGLE_API_KEY"] = google_api_key
 llm = ChatGroq(
     model_name="llama-3.3-70b-versatile",
     temperature=1,
-    groq_api_key=GROQ_API_KEY
+    groq_api_key=groq_api_key
 )
 
 # Define the prompt template for generating responses
