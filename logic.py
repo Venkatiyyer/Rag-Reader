@@ -22,13 +22,23 @@ groq_api_key = os.getenv("GROQ_API_KEY")
 os.environ["GOOGLE_API_KEY"] = google_api_key
 
 # Initialize the model
-llm = ChatGroq(groq_api_key=groq_api_key, model_name="Llama3-8b-8192")
+# llm = ChatGroq(groq_api_key=groq_api_key, model_name="Llama3-8b-8192")
+# Setup the LLM
+llm = ChatGroq(
+    model_name="llama-3.3-70b-versatile",
+    temperature=1,
+    groq_api_key=GROQ_API_KEY
+)
 
 # Define the prompt template for generating responses
 prompt = ChatPromptTemplate.from_template(
     """
-    Answer the questions based on the provided context only.
-    Please provide the most accurate response based on the question.
+    You are a helpful and friendly assistant.
+
+    For questions related to the provided context, answer strictly based on the given information.
+    For general or social questions (e.g., greetings or small talk), respond in a human, conversational tone.
+
+    Use natural and easy-to-understand language in all your answers.
     <context>
     {context}
     <context>
