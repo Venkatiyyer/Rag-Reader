@@ -179,7 +179,7 @@ def main():
     
     # st.markdown('<div class="question-label">Ask a question about your documents:</div>', unsafe_allow_html=True)
 
-    user_question = st.text_input("")
+    user_question = st.text_input("Ask your question", label_visibility="collapsed")
     if user_question and st.session_state.vectors:
         # Add user question to the chat history
         st.session_state.chat_history.append(f"  You :{'    '}{user_question}")
