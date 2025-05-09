@@ -85,22 +85,28 @@ def vector_embedding(data_dir="./data"):
 
 def query_documents(query: str, vectors, prompt=prompt):
     try:
+        # build the chain
         document_chain = create_stuff_documents_chain(llm, prompt)
         retriever = vectors.as_retriever()
         retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
-        # Run the query
+        # invoke and time it
         start = time.process_time()
         response = retrieval_chain.invoke({'input': query})
-        response_time = time.process_time() - start
-        
-        # Return the result
-        return {
-            "query": query,
-            "answer": response['answer'],
-            "relevant_docs": response['context'],
-            "response_time": response_time
-        }
+        elapsed = time.process_time() - start
+
+        # if the chain gave back an answer, return it
+        if 'answer' in response and response['answer'].strip():
+            return {
+                "query": query,
+                "answer": response['answer'],
+                "relevant_docs": response.get('context', ""),
+                "response_time": elapsed
+            }
+        # otherwise it ran but found nothing
+        return {"no_result": True}
 
     except Exception as e:
-        return {"message": f"Error in querying documents: {str(e)}"}
+        # bubble up the real error
+        return {"error": str(e)}
+
