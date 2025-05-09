@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import streamlit.components.v1 as components
 from logic import vector_embedding, query_documents  # Import functions from shared_logic.py
 
 # Ensure the directory for saving files exists
@@ -68,53 +69,52 @@ user_template = '''
 
 # CSS 
 
-# Define CSS for header and question label
 header_css = '''
 <style>
     /* Style for the main header with transparent background */
     .main-header {
         text-align: center;
-        font-size: 4rem; /* Large font size for prominence */
+        font-size: 1rem; /* Large font size for prominence */
         font-weight: bold;
         color: #e8a507;  /* Yellow color for contrast against dark background */
         padding: 1rem;
         background: transparent;  /* Transparent background */
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);  /* Slight shadow for visibility */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);  /* Slight shadow */
         display: inline-block;
-        letter-spacing: 2px; /* Adds spacing between letters */
+        letter-spacing: 2px; /* Spacing between letters */
     }
 
     /* Style for the subtitle below the main header */
     .sub-header {
         text-align: right;
-        font-size: 1.5rem; /* Font size slightly smaller than the header */
+        font-size: 1.5rem;
         font-weight: normal;
-        color: #870505;  /* Light red text color for contrast */
+        color: #870505;  /* Light red text color */
         padding: 1rem;
-        background: transparent;  /* Transparent background */
+        background: transparent;
         display: inline-block;
-        margin-top: -20px;  /* Negative margin to bring it closer to the main header */
+        margin-top: -20px;  /* Bring it closer to the header */
+        width: 100%;
     }
 
-    /* Adjust font size and alignment for smaller screens */
+    /* Responsive adjustments */
     @media (max-width: 600px) {
         .main-header {
-            font-size: 2.5rem; /* Smaller font size for responsiveness */
+            font-size: 2.5rem;
         }
         .sub-header {
             font-size: 1.25rem;
-            margin-right: 10%; /* Adds a bit of right margin */
+            margin-right: 10%;
         }
     }
 
     /* Style for the question label */
     .question-label {
-        font-size: 1.5rem; /* Slightly larger font for better visibility */
-        color: #cccccc; /* Grey color to contrast against a dark background */
+        font-size: 1.5rem;
+        color: #cccccc;
         font-weight: bold;
-        # margin-bottom: 1rem;
-         margin-top: 2rem;
+        margin-top: 2rem;
         display: block;
     }
 </style>

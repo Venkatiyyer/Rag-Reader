@@ -8,18 +8,19 @@ from langchain.chains import create_retrieval_chain
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders.text import TextLoader
 from langchain_community.document_loaders import PyPDFDirectoryLoader
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+# from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
 # Manually set the API keys
-google_api_key = os.getenv("GOOGLE_API_KEY")
+# google_api_key = os.getenv("GOOGLE_API_KEY")
 groq_api_key = os.getenv("GROQ_API_KEY")
 
 # Set the environment variable for Google API key
-os.environ["GOOGLE_API_KEY"] = google_api_key
+# os.environ["GOOGLE_API_KEY"] = google_api_key
 
 # Initialize the model
 # llm = ChatGroq(groq_api_key=groq_api_key, model_name="Llama3-8b-8192")
@@ -71,7 +72,8 @@ def vector_embedding(data_dir="./data"):
         if not all_docs:
             return {"message": "No documents found in the specified directory."}
 
-        embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        # embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        embeddings = HuggingFaceEmbeddings(model_name="paraphrase-MiniLM-L6-v2")
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)  # Chunk Creation
         final_documents = text_splitter.split_documents(all_docs[:20])  # splitting
         vectors = FAISS.from_documents(final_documents, embeddings)  # vector OpenAI embeddings
