@@ -11,4 +11,5 @@ pypdf
 # google-cloud-aiplatform>=1.38
 #fastapi
 #uvicorn
+sentence-transformers
 
