@@ -71,9 +71,35 @@ def main():
                     st.session_state.vectors = vecs
                     st.success("Files processed successfully!")
 
-    # User question input
-    user_question = st.text_input("Ask a question about your documents", label_visibility="collapsed")
-    if user_question:
+    # # User question input
+    # user_question = st.text_input("Ask a question about your documents", label_visibility="collapsed")
+    # if user_question:
+    #     # Ensure vectors are ready and valid
+    #     vecs = st.session_state.vectors
+    #     if not vecs:
+    #         st.warning("Please process some documents first.")
+    #     elif isinstance(vecs, dict):
+    #         st.error(f"Previous build error: {vecs['message']}")
+    #     else:
+    #         st.session_state.chat_history.append(f"You : {user_question}")
+    #         response = query_documents(user_question, vecs)
+    #         if "error" in response:
+    #             st.error(f"⚠️ Retrieval error: {response['error']}")
+    #         elif "no_result" in response:
+    #             st.warning("Ran successfully, but no matching content found.")
+    #         else:
+    #             st.session_state.chat_history.append(response["answer"])
+
+    # User question input within a form
+    with st.form(key="question_form", clear_on_submit=True):
+        user_question = st.text_input(
+            "Ask a question about your documents",
+            label_visibility="collapsed",
+            placeholder="Type your question here..."
+        )
+        submitted = st.form_submit_button("Enter")
+    
+    if submitted and user_question:
         # Ensure vectors are ready and valid
         vecs = st.session_state.vectors
         if not vecs:
@@ -88,7 +114,7 @@ def main():
             elif "no_result" in response:
                 st.warning("Ran successfully, but no matching content found.")
             else:
-                st.session_state.chat_history.append(response["answer"])
+                st.session_state.chat_history.append(response["answer"])    
 
     # Display chat history
     if st.session_state.chat_history:
