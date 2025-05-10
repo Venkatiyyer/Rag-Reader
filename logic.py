@@ -9,7 +9,8 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders.text import TextLoader
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 # from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain.embeddings import HuggingFaceEmbeddings
+# from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.embeddings import SentenceTransformerEmbeddings
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -103,10 +104,14 @@ def vector_embedding(data_dir="./data"):
 
         # embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
         # embeddings = HuggingFaceEmbeddings(model_name="paraphrase-MiniLM-L6-v2")
-        embeddings = HuggingFaceEmbeddings(
-        model_name="paraphrase-MiniLM-L6-v2",
-        model_kwargs={"device": "cpu"}         # <— add this
-    )
+    #     embeddings = HuggingFaceEmbeddings(
+    #     model_name="paraphrase-MiniLM-L6-v2",
+    #     model_kwargs={"device": "cpu"}         # <— add this
+    # )
+
+         embeddings = SentenceTransformerEmbeddings(
+         model_name="paraphrase-MiniLM-L6-v2", 
+         model_kwargs={"device": "cpu"}   # often optional)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)  # Chunk Creation
         final_documents = text_splitter.split_documents(all_docs[:20])  # splitting
         vectors = FAISS.from_documents(final_documents, embeddings)  # vector OpenAI embeddings
