@@ -102,7 +102,11 @@ def vector_embedding(data_dir="./data"):
 
 
         # embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-        embeddings = HuggingFaceEmbeddings(model_name="paraphrase-MiniLM-L6-v2")
+        # embeddings = HuggingFaceEmbeddings(model_name="paraphrase-MiniLM-L6-v2")
+        embeddings = HuggingFaceEmbeddings(
+        model_name="paraphrase-MiniLM-L6-v2",
+        model_kwargs={"device": "cpu"}         # <— add this
+    )
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)  # Chunk Creation
         final_documents = text_splitter.split_documents(all_docs[:20])  # splitting
         vectors = FAISS.from_documents(final_documents, embeddings)  # vector OpenAI embeddings
