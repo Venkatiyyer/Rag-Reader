@@ -47,30 +47,59 @@ prompt = ChatPromptTemplate.from_template(
     """
 )
 
+# def vector_embedding(data_dir="./data"):
+#     try:
+#         # Load .txt files from the data directory
+#         txt_file_paths = [os.path.join(data_dir, filename) for filename in os.listdir(data_dir) if filename.endswith(".txt")]
+        
+#         # Initialize TextLoader for each text file
+#         txt_loader = [TextLoader(file_path) for file_path in txt_file_paths]
+
+#         # Load .pdf files from the data directory
+#         pdf_loader = PyPDFDirectoryLoader(data_dir)
+
+#         # Load all documents
+#         txt_docs = []
+#         for loader in txt_loader:
+#             txt_docs += loader.load()
+
+#         pdf_docs = pdf_loader.load()  # Load PDF files
+
+#         # Combine both text and PDF documents into one list
+#         all_docs = txt_docs + pdf_docs
+
+#         # If no documents are found
+#         if not all_docs:
+#             return {"message": "No documents found in the specified directory."}
+
 def vector_embedding(data_dir="./data"):
     try:
-        # Load .txt files from the data directory
-        txt_file_paths = [os.path.join(data_dir, filename) for filename in os.listdir(data_dir) if filename.endswith(".txt")]
-        
-        # Initialize TextLoader for each text file
-        txt_loader = [TextLoader(file_path) for file_path in txt_file_paths]
+        files = os.listdir(data_dir)
+        if not files:
+            return {"message": "📂 data_dir is empty"}
 
-        # Load .pdf files from the data directory
-        pdf_loader = PyPDFDirectoryLoader(data_dir)
+        # pick up .txt and .pdf
+        txts = [f for f in files if f.endswith(".txt")]
+        pdfs = [f for f in files if f.lower().endswith(".pdf")]
+        if not (txts or pdfs):
+            return {"message": "❌ No .txt or .pdf files found"}
 
-        # Load all documents
+        # load text
         txt_docs = []
-        for loader in txt_loader:
+        for fn in txts:
+            loader = TextLoader(os.path.join(data_dir, fn))
             txt_docs += loader.load()
 
-        pdf_docs = pdf_loader.load()  # Load PDF files
+        # load pdf
+        try:
+            pdf_docs = PyPDFDirectoryLoader(data_dir).load()
+        except Exception as e:
+            return {"message": f"PDF loading error: {e}"}
 
-        # Combine both text and PDF documents into one list
         all_docs = txt_docs + pdf_docs
-
-        # If no documents are found
         if not all_docs:
-            return {"message": "No documents found in the specified directory."}
+            return {"message": "📄 Files found, but no content could be loaded"}
+
 
         # embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
         embeddings = HuggingFaceEmbeddings(model_name="paraphrase-MiniLM-L6-v2")
