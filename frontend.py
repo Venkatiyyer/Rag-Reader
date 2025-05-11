@@ -39,6 +39,15 @@ def main():
     st.set_page_config(page_title="RAGReader Pro", page_icon=":books:")
     st.write(css, unsafe_allow_html=True)
 
+     # Clear uploaded files on app start
+    for filename in os.listdir(data_dir):
+        file_path = os.path.join(data_dir, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            st.error(f"Error deleting file {file_path}: {e}")
+
     # Initialize session state
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
